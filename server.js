@@ -1,6 +1,9 @@
 const express = require("express");
 const hbs = require("hbs");
 const fs =  require('fs')
+
+
+const port = process.env.PORT || 3000
 var app = express();
 
 hbs.registerPartials(__dirname + '/views/partials')
@@ -19,11 +22,11 @@ app.use((req, res, next)=>{
     next()
 })
 
-app.use((req, res, next)=>{
-    res.render('maintence.hbs',{
-        pageTitle: 'The website is in maintence'
-    })
-})
+// app.use((req, res, next)=>{
+//     res.render('maintence.hbs',{
+//         pageTitle: 'The website is in maintence'
+//     })
+// })
 
 hbs.registerHelper('getCurrentYear',()=>{
     return new Date().getFullYear()
@@ -46,12 +49,18 @@ app.get("/about", (req, res) => {
   })
 });
 
+app.get("/projects", (req, res) => {
+    res.render('projects.hbs', {
+        pageTitle: 'Projects Portafolio',
+    })
+  });
+
 app.get("/bad", (req, res) => {
   res.send({
     errorMessage: "Unable to handle the request"
   });
 });
 
-app.listen(3000, () => {
-  console.log("Server is up on port 3000");
+app.listen(port, () => {
+  console.log(`Server is up on port ${port}`);
 });
